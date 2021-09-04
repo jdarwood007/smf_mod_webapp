@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE package-info SYSTEM "http://www.simplemachines.org/xml/package-info">
+<package-info xmlns="http://www.simplemachines.org/xml/package-info" xmlns:smf="http://www.simplemachines.org/">
+	<id>SleePy:WebApp</id>
+	<name>Web App</name>
+	<version>1.0</version>
+	<type>modification</type>
+
+	<install for="2.1 RC4, 2.1.*">
+		<require-file name="language/WebApp.english.php" destination="$themes_dir/default/languages" />
+		<require-file name="WebApp.php" destination="$sourcedir" />
+
+		<!-- All the hooks -->
+			<!-- Main Section -->
+			<hook hook="integrate_pre_include" function="$sourcedir/WebApp.php" />
+			<hook hook="integrate_actions" function="WebApp::hook_actions" />
+			<hook hook="integrate_load_theme" function="WebApp::hook_load_theme" />
+
+			<!-- Admin Section -->
+			<hook hook="integrate_admin_areas" function="WebApp::hook_admin_areas" />
+			<hook hook="integrate_modify_modifications" function="WebApp::hook_modify_modifications" />
+			<hook hook="integrate_helpadmin" function="WebApp::hook_helpadmin" />
+
+		<redirect url="?action=admin;area=securitysettings;sa=sfs" />
+	</install>
+
+	<uninstall for="2.1 RC4, 2.1.*">
+		<!-- All the hooks, removed -->
+			<!-- Main Section -->
+			<hook hook="integrate_pre_include" function="$sourcedir/SFS.php" reverse="true" />
+			<hook hook="integrate_actions" function="SFS::hook_actions" reverse="true" />
+			<hook hook="integrate_load_theme" function="WebApp::hook_load_theme" reverse="true" />
+
+			<!-- Admin Section -->
+			<hook hook="integrate_admin_areas" function="SFSA::hook_admin_areas" reverse="true" />
+			<hook hook="integrate_modify_modifications" function="WebApp::hook_modify_modifications" reverse="true" />
+			<hook hook="integrate_helpadmin" function="WebApp::hook_helpadmin" reverse="true" />
+
+		<!-- language files, removed -->
+		<remove-file name="$themes_dir/default/languages/WebApp.english.php" />
+
+		<!-- source files, removed -->
+		<remove-file name="$sourcedir/WebApp.php" />
+	</uninstall>
+
+</package-info>
